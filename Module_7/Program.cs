@@ -2,46 +2,54 @@
 
 class Program
 {
-    class Employee(string name, int age, int salary)
+    class A
     {
-        public string Name = name;
-        public int Age = age;
-        public int Salary = salary;
-
-        public override string ToString()
+        public virtual void Display()
         {
-            return $"{Name} {Age} {Salary}";
+            Console.Write("A");
         }
     }
 
-    class ProjectManager(string name, int age, int salary, string projectName) : Employee(name, age, salary)
+    class B : A
     {
-        public string ProjectName = projectName;
-
-        public override string ToString()
+        public new void Display()
         {
-            return $"{base.ToString()} {ProjectName}";
+            Console.Write("B");
         }
     }
 
-    class Developer(string name, int age, int salary, string programminlanguale) : Employee(name, age, salary)
+    class C : A
     {
-        public string ProgrammingLanguage = programminlanguale;
-
-        public override string ToString()
+        public override void Display()
         {
-            return $"{base.ToString()} {ProgrammingLanguage}";
+            Console.Write("C");
+        }
+    }
+
+    class D : B
+    {
+        public new void Display()
+        {
+            Console.Write("D");
+        }
+    }
+
+    class E : C
+    {
+        public new void Display()
+        {
+            Console.Write("E");
         }
     }
     
     static void Main(string[] args)
     {
-        var emp = new Employee("John", 30, 10000);
-        var dev = new Developer("Andrew", 25, 15000, "C#");
-        var proj = new ProjectManager("Max",33,20000,"Architect");
+        D d = new D();
+        E e = new E();
         
-        Console.WriteLine(emp);
-        Console.WriteLine(dev);
-        Console.WriteLine(proj);
+        d.Display();
+        ((A)e).Display();
+        ((B)d).Display();
+        ((A)d).Display();
     }
 }
