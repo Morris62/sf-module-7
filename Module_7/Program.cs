@@ -1,36 +1,34 @@
 ﻿namespace Module_7;
-
+static class IntExtention
+    {
+     public static int GetNegative(this int number)
+     {
+         return number > 0 ? number * -1 : number;
+     }
+     public static int GetPositive(this int number)
+     {
+         return number < 0 ? number * -1 : number;
+     }
+    }
+    
 class Program
 {
-    abstract class Person(string name)
-    {
-        protected readonly string Name = name;
-        public abstract void Display();
-    }
-
-    class Employee(string name, bool isOnShift) : Person(name)
-    {
-        public override void Display()
-        {
-            Console.WriteLine($"Name: {Name}, IsOnShift: {isOnShift}");
-        }
-    }
-
-    class Guest(string name, DateTime arrivalTime) : Person(name)
-    {
-        public override void Display()
-        {
-            Console.WriteLine($"Name: {Name}, ArrivalTime: {arrivalTime}");
-        }
-    }
     static void Main()
     {
-        var employee = new Employee("John", true);
-        var guest = new Guest("Jane", DateTime.Now);
-        employee.Display();
-        guest.Display();
+        int num1 = 8;
+        int num2 = -1;
+        int num3 = 0;
         
-        Person person = employee;
-        person.Display();
+        Console.WriteLine($"num1 = {num1}");
+        Console.WriteLine($"num2 = {num2}");
+        Console.WriteLine($"num3 = {num3}");
+        
+        Console.WriteLine($"num1.GetNegative() = {num1.GetNegative()}");
+        Console.WriteLine($"num2.GetNegative() = {num2.GetNegative()}");
+        Console.WriteLine($"num3.GetNegative() = {num3.GetNegative()}");
+
+        Console.WriteLine($"num1.GetPositive() = {num1.GetPositive()}");
+        Console.WriteLine($"num2.GetPositive() = {num2.GetPositive()}");
+        Console.WriteLine($"num3.GetPositive() = {num3.GetPositive()}");
     }
 }
