@@ -2,58 +2,74 @@
 
 class Program
 {
-    class Vector
+    class Book
     {
-        public int X;
-        public int Y;
+        public required string  Title { get; set; }
+        public required string Author { get; set; }
+    }
 
-        public static Vector operator + (Vector v1, Vector v2)
+    class BookCollection(Book?[] collection)
+    {
+        private Book?[] _collection = collection;
+
+        public int Length => _collection.Length;
+
+        public Book? this[int index]
         {
-            return new Vector
+            get
             {
-                X = v1.X + v2.X,
-                Y = v1.Y + v2.Y
-            };
+                if (index >= 0 && index < _collection.Length)
+                {
+                    return _collection[index];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            private set
+            {
+                if (index >= 0 && index < _collection.Length)
+                {
+                    _collection[index] = value;
+                }
+            }
         }
 
-        public static Vector operator + (Vector v)
+        public Book? this[string title]
         {
-            return new Vector
+            get
             {
-                X = v.X,
-                Y = v.Y
-            };
-        }
+                foreach (var book in _collection)
+                {
+                    if (book?.Title == title)
+                    {
+                        return book;
+                    }
+                }
 
-        public static Vector operator +(Vector v1, (int x, int y) v2)
-        {
-            return new Vector
-            {
-                X = v1.X + v2.x,
-                Y = v1.Y + v2.y
-            };
-        }
-
-        public override string ToString()
-        {
-            return $"X: {X}, Y: {Y}";
+                return null;
+            }
         }
     }
-    
-    static void Main(string[] args)
+
+    static void Main()
     {
-        var a = new Vector {X = 1, Y = 2};
-        var b = new Vector {X = 3, Y = 4};
-        Console.WriteLine($"a: {a}");
-        Console.WriteLine($"b: {b}");
-                
-        var c = a + b;
-        Console.WriteLine($"c: {c}");
-        
-        var d = +a;
-        Console.WriteLine($"d: {d}");
-        
-        var e = a + (1, 2);
-        Console.WriteLine($"e: {e}");
+        Book[] array =
+        [
+            new Book { Title = "The Hobbit", Author = "Tolkien" },
+            new Book { Title = "The Lord of the Rings", Author = "Tolkien" },
+            new Book { Title = "The Hitchhiker's Guide to the Galaxy", Author = "Adams" },
+            new Book { Title = "Happy English", Author = "Teacher" }
+        ];
+
+        var collection = new BookCollection(array);
+
+        for (var i = 0; i < collection.Length; i++)
+        {
+            Console.WriteLine($"Book{i + 1}: {collection[i]?.Title} by {collection[i]?.Author}");
+        }
+
+        Console.WriteLine($"Author of The Hobbit: {collection["The Hobbit"]?.Author}");
     }
 }
