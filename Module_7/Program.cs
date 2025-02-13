@@ -2,54 +2,58 @@
 
 class Program
 {
-    class A
+    class Vector
     {
-        public virtual void Display()
-        {
-            Console.Write("A");
-        }
-    }
+        public int X;
+        public int Y;
 
-    class B : A
-    {
-        public new void Display()
+        public static Vector operator + (Vector v1, Vector v2)
         {
-            Console.Write("B");
+            return new Vector
+            {
+                X = v1.X + v2.X,
+                Y = v1.Y + v2.Y
+            };
         }
-    }
 
-    class C : A
-    {
-        public override void Display()
+        public static Vector operator + (Vector v)
         {
-            Console.Write("C");
+            return new Vector
+            {
+                X = v.X,
+                Y = v.Y
+            };
         }
-    }
 
-    class D : B
-    {
-        public new void Display()
+        public static Vector operator +(Vector v1, (int x, int y) v2)
         {
-            Console.Write("D");
+            return new Vector
+            {
+                X = v1.X + v2.x,
+                Y = v1.Y + v2.y
+            };
         }
-    }
 
-    class E : C
-    {
-        public new void Display()
+        public override string ToString()
         {
-            Console.Write("E");
+            return $"X: {X}, Y: {Y}";
         }
     }
     
     static void Main(string[] args)
     {
-        D d = new D();
-        E e = new E();
+        var a = new Vector {X = 1, Y = 2};
+        var b = new Vector {X = 3, Y = 4};
+        Console.WriteLine($"a: {a}");
+        Console.WriteLine($"b: {b}");
+                
+        var c = a + b;
+        Console.WriteLine($"c: {c}");
         
-        d.Display();
-        ((A)e).Display();
-        ((B)d).Display();
-        ((A)d).Display();
+        var d = +a;
+        Console.WriteLine($"d: {d}");
+        
+        var e = a + (1, 2);
+        Console.WriteLine($"e: {e}");
     }
 }
