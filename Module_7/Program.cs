@@ -2,74 +2,35 @@
 
 class Program
 {
-    class Book
+    abstract class Person(string name)
     {
-        public required string  Title { get; set; }
-        public required string Author { get; set; }
+        protected readonly string Name = name;
+        public abstract void Display();
     }
 
-    class BookCollection(Book?[] collection)
+    class Employee(string name, bool isOnShift) : Person(name)
     {
-        private Book?[] _collection = collection;
-
-        public int Length => _collection.Length;
-
-        public Book? this[int index]
+        public override void Display()
         {
-            get
-            {
-                if (index >= 0 && index < _collection.Length)
-                {
-                    return _collection[index];
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            private set
-            {
-                if (index >= 0 && index < _collection.Length)
-                {
-                    _collection[index] = value;
-                }
-            }
-        }
-
-        public Book? this[string title]
-        {
-            get
-            {
-                foreach (var book in _collection)
-                {
-                    if (book?.Title == title)
-                    {
-                        return book;
-                    }
-                }
-
-                return null;
-            }
+            Console.WriteLine($"Name: {Name}, IsOnShift: {isOnShift}");
         }
     }
 
+    class Guest(string name, DateTime arrivalTime) : Person(name)
+    {
+        public override void Display()
+        {
+            Console.WriteLine($"Name: {Name}, ArrivalTime: {arrivalTime}");
+        }
+    }
     static void Main()
     {
-        Book[] array =
-        [
-            new Book { Title = "The Hobbit", Author = "Tolkien" },
-            new Book { Title = "The Lord of the Rings", Author = "Tolkien" },
-            new Book { Title = "The Hitchhiker's Guide to the Galaxy", Author = "Adams" },
-            new Book { Title = "Happy English", Author = "Teacher" }
-        ];
-
-        var collection = new BookCollection(array);
-
-        for (var i = 0; i < collection.Length; i++)
-        {
-            Console.WriteLine($"Book{i + 1}: {collection[i]?.Title} by {collection[i]?.Author}");
-        }
-
-        Console.WriteLine($"Author of The Hobbit: {collection["The Hobbit"]?.Author}");
+        var employee = new Employee("John", true);
+        var guest = new Guest("Jane", DateTime.Now);
+        employee.Display();
+        guest.Display();
+        
+        Person person = employee;
+        person.Display();
     }
 }
